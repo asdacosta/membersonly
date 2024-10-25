@@ -8,6 +8,9 @@ const app = express();
 const assetsPath = path.join(__dirname, "public");
 
 app.use(express.static(assetsPath));
+app.use(passport.session());
+app.use(express.urlencoded({ extended: false }));
+app.use(session({ secret: "Vybz", resave: false, saveUninitialized: false }));
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
