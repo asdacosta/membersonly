@@ -9,6 +9,13 @@
   <body class="signUp">
     <h1>Sign Up</h1>
     <form action="/sign-up" method="POST">
+      <% if (errors) { %>
+      <ul>
+        <% errors.forEach(error => { %>
+        <li><%= error.msg %></li>
+        <% }) %>
+      </ul>
+      <% } %>
       <div>
         <label for="first_name">First Name</label>
         <input type="text" name="first_name" id="first_name" maxlength="50" />
