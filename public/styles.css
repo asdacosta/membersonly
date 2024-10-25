@@ -1,0 +1,29 @@
+.signUp {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.signUp form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.signUp form > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.signUp input {
+  min-width: 15rem;
+}
+
+.signUp form button {
+  align-self: center;
+  cursor: pointer;
+  margin-top: 1rem;
+}
