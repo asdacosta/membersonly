@@ -12,6 +12,7 @@ const {
   getLogOut,
   getMembers,
   postMessage,
+  getHome,
 } = require("./controllers/control");
 const app = express();
 const assetsPath = path.join(__dirname, "public");
@@ -29,7 +30,12 @@ passport.use(localStrategy);
 passport.serializeUser((user, done) => done(null, user.id));
 passport.deserializeUser(deserialize);
 
-app.get("/", (req, res) => res.render("index", { user: req.user }));
+app.use((req, res, next) => {
+  res.locals.currentUser = req.user;
+  next();
+});
+
+app.get("/", getHome);
 app.get("/sign-up", (req, res) => res.render("sign-up"));
 app.get("/join-club", (req, res) => res.render("join-club"));
 app.get("/log-in", (req, res) => res.render("log-in"));
