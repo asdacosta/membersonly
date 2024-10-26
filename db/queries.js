@@ -55,14 +55,22 @@ async function checkMembership(username) {
 }
 
 async function addMessage(name, title, text) {
-  const id = await pool.query("SELECT id FROM users WHERE username = $1", [
-    name,
-  ]);
-  await pool.query(
-    "INSERT INTO messages (user_id, title, text) VALUES ($1, $2, $3)"[
-      (id, title, text)
-    ]
+  const { rows } = await pool.query(
+    "SELECT id FROM users WHERE username = $1",
+    [name]
   );
+  const id = rows[0]?.id;
+  if (!id) throw new Error("User ID not found");
+
+  await pool.query(
+    "INSERT INTO messages (user_id, title, text) VALUES ($1, $2, $3)",
+    [id, title, text]
+  );
+}
+
+async function retrieveMessages() {
+  const { rows } = await pool.query("SELECT title, text, time FROM messages");
+  return rows;
 }
 
 module.exports = {
@@ -73,4 +81,5 @@ module.exports = {
   findUserWithId,
   checkMembership,
   addMessage,
+  retrieveMessages,
 };
