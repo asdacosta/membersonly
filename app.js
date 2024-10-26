@@ -20,6 +20,7 @@ app.set("view engine", "ejs");
 app.use(express.static(assetsPath));
 app.use(express.urlencoded({ extended: false }));
 app.use(session({ secret: "Vybz", resave: false, saveUninitialized: false }));
+app.use(passport.initialize());
 app.use(passport.session());
 
 passport.use(localStrategy);
@@ -31,6 +32,14 @@ app.get("/sign-up", (req, res) => res.render("sign-up"));
 app.get("/join-club", (req, res) => res.render("join-club"));
 app.get("/log-in", (req, res) => res.render("log-in"));
 app.get("/log-out", getLogOut);
+app.get("/members", (req, res) => {
+  if (!req.isAuthenticated()) return res.redirect("/log-in");
+  res.render("members", {
+    user: req.user,
+    membership: req.user.membership_status,
+    message: "",
+  });
+});
 
 app.post("/join-club", postJoinClub);
 app.post("/sign-up", signUpValidation, postSignUp);
