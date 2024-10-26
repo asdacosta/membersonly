@@ -10,6 +10,10 @@
     <h1>New Message</h1>
     <form action="/message" method="POST">
       <div>
+        <label for="email">Email</label>
+        <input type="email" name="email" id="email" maxlength="50" />
+      </div>
+      <div>
         <label for="title">Title</label>
         <input type="text" name="title" id="title" required />
       </div>
