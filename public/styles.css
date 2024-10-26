@@ -1,4 +1,5 @@
-.signUp {
+.signUp,
+.home {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -26,4 +27,16 @@
   align-self: center;
   cursor: pointer;
   margin-top: 1rem;
+}
+
+.messagesBox {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.messagesBox > div {
+  border: 0.1rem solid black;
+  padding: 0 1rem;
+  border-radius: 1rem;
 }
