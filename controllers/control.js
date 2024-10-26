@@ -1,6 +1,7 @@
 const { body, validationResult } = require("express-validator");
 const db = require("../db/queries");
 const crypt = require("bcryptjs");
+const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 
 const signUpValidation = [
@@ -43,9 +44,6 @@ const signUpValidation = [
 ];
 
 async function postSignUp(req, res, next) {
-  const user = db.findUser(req.body.email);
-  const membership = db.checkMembership(req.body.email);
-
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.render("sign-up", {
@@ -63,7 +61,15 @@ async function postSignUp(req, res, next) {
         req.body.email,
         hashedPwd
       );
-      res.render("members", { user: user, membership: membership });
+
+      const user = await db.findUser(req.body.email);
+      const membership = await db.checkMembership(req.body.email);
+      console.log("Membership stat: ", membership);
+      res.render("members", {
+        user: user,
+        membership: membership,
+        message: "Welcome to the Club",
+      });
     });
   } catch (error) {
     return next(error);
@@ -87,27 +93,44 @@ async function postJoinClub(req, res) {
   }
 }
 
-const localStrategy = new LocalStrategy(async (username, password, done) => {
-  try {
-    const user = await db.findAllUserData(username);
-    const match = await crypt.compare(password, user.password);
+const localStrategy = new LocalStrategy(
+  { usernameField: "email" },
+  async (email, password, done) => {
+    try {
+      const user = await db.findAllUserData(email);
+      if (!user) return done(null, false, { message: "Incorrect username" });
 
-    if (!user) return done(null, false, { message: "Incorrect username" });
-    if (!match) return done(null, false, { message: "Incorrect password" });
-    return done(null, user);
-  } catch (error) {
-    return done(error);
+      const match = await crypt.compare(password, user.password);
+      if (!match) return done(null, false, { message: "Incorrect password" });
+      return done(null, user);
+    } catch (error) {
+      return done(error);
+    }
   }
-});
+);
 
 const deserialize = async (id, done) => {
   try {
     const user = await db.findUserWithId(id);
-    done(null, user);
+    done(null, user || false);
   } catch (error) {
     done(error);
   }
 };
+
+async function postLogIn() {
+  passport.authenticate("local", {
+    successRedirect: "/members",
+    failureRedirect: "/log-in",
+  });
+}
+
+function getLogOut(req, res, next) {
+  req.logout((err) => {
+    if (err) return next(err);
+    res.redirect("/");
+  });
+}
 
 module.exports = {
   postSignUp,
@@ -115,4 +138,6 @@ module.exports = {
   localStrategy,
   deserialize,
   postJoinClub,
+  postLogIn,
+  getLogOut,
 };
