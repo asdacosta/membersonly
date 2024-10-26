@@ -54,6 +54,17 @@ async function checkMembership(username) {
   return user.membership_status === "active";
 }
 
+async function addMessage(name, title, text) {
+  const id = await pool.query("SELECT id FROM users WHERE username = $1", [
+    name,
+  ]);
+  await pool.query(
+    "INSERT INTO messages (user_id, title, text) VALUES ($1, $2, $3)"[
+      (id, title, text)
+    ]
+  );
+}
+
 module.exports = {
   addUser,
   findUser,
@@ -61,4 +72,5 @@ module.exports = {
   findAllUserData,
   findUserWithId,
   checkMembership,
+  addMessage,
 };
