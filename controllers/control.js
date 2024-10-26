@@ -141,6 +141,11 @@ function getMembers(req, res) {
   });
 }
 
+async function postMessage(req, res) {
+  await db.addMessage(req.user.username, req.body.title, req.body.message);
+  res.redirect("/");
+}
+
 module.exports = {
   postSignUp,
   signUpValidation,
@@ -150,4 +155,5 @@ module.exports = {
   postLogIn,
   getLogOut,
   getMembers,
+  postMessage,
 };
