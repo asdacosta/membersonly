@@ -12,12 +12,19 @@
     <section class="messagesBox">
       <% allMessages.forEach((msg) => { %>
       <div>
-        <h3><Title></Title>: <%= msg.title %></h3>
+        <h3>Title: <%= msg.title %></h3>
         <p>Message: <%= msg.text %></p>
+        <% if (membership) { %>
+        <p>User ID: <%= msg.user_id %></p>
+        <p>Date: <%= msg.time.toDateString() %></p>
+        <% } %>
       </div>
       <% }) %>
     </section>
     <a href="/message">Create new message</a>
+    <% if (!membership) { %>
+    <a href="/join-club">Join Club</a>
+    <% } %>
     <a href="/log-out">Log Out</a>
     <% } else { %>
     <h1>The Members Club</h1>
