@@ -1,6 +1,7 @@
 const { body, validationResult } = require("express-validator");
 const db = require("../db/queries");
 const crypt = require("bcryptjs");
+const LocalStrategy = require("passport-local").Strategy;
 
 const signUpValidation = [
   body("first_name")
@@ -42,9 +43,12 @@ const signUpValidation = [
 ];
 
 async function postSignUp(req, res, next) {
+  const user = db.findUser(req.body.email);
+  const membership = db.checkMembership(req.body.email);
+
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(400).render("index", {
+    return res.render("sign-up", {
       errors: errors.array(),
       FormData: req.body,
     });
@@ -59,14 +63,61 @@ async function postSignUp(req, res, next) {
         req.body.email,
         hashedPwd
       );
-      res.redirect("/");
+      res.render("members", { user: user, membership: membership });
     });
   } catch (error) {
     return next(error);
   }
 }
 
+async function postJoinClub(req, res) {
+  const user = await db.findUser(req.body.email);
+  if (!user) return res.render("join-club", { error: "Be a member first." });
+
+  if (req.body.passcode !== "Vybz") {
+    return res.render("join-club", { error: "Wrong code :(" });
+  }
+
+  const response = await db.updateMembership(req.body.email);
+  if (response) {
+    res.render("members", {
+      message: "Welcome to the club :)",
+      membership: response,
+    });
+  } else {
+    res.render("members", {
+      message: "You're already in the club!",
+      membership: response,
+    });
+  }
+}
+
+const localStrategy = new LocalStrategy(async (username, password, done) => {
+  try {
+    const user = await db.findAllUserData(username);
+    const match = await crypt.compare(password, user.password);
+
+    if (!user) return done(null, false, { message: "Incorrect username" });
+    if (!match) return done(null, false, { message: "Incorrect password" });
+    return done(null, user);
+  } catch (error) {
+    return done(error);
+  }
+});
+
+const deserialize = async (id, done) => {
+  try {
+    const user = await db.findUserWithId(id);
+    done(null, user);
+  } catch (error) {
+    done(error);
+  }
+};
+
 module.exports = {
   postSignUp,
   signUpValidation,
+  localStrategy,
+  deserialize,
+  postJoinClub,
 };
