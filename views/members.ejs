@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Members</title>
+  </head>
+  <body>
+    <% if (membership) { %>
+    <p><%= message %></p>
+    <h1>You're part of the big boys club</h1>
+    <button><a href="/">Home</a></button>
+    <% } else if (user) { %>
+    <h1>Welcome! You're a member now</h1>
+    <button><a href="/join-club">Join club</a></button>
+    <% } %>
+  </body>
+</html>
