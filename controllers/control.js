@@ -64,7 +64,6 @@ async function postSignUp(req, res, next) {
 
       const user = await db.findUser(req.body.email);
       const membership = await db.checkMembership(req.body.email);
-      console.log("Membership stat: ", membership);
       res.render("members", {
         user: user,
         membership: membership,
@@ -148,7 +147,19 @@ async function postMessage(req, res) {
 
 async function getHome(req, res) {
   const allMessages = await db.retrieveMessages();
-  res.render("index", { user: req.user, allMessages: allMessages });
+  if (req.user) {
+    const membership = await db.checkMembership(req.user.username);
+    return res.render("index", {
+      user: req.user,
+      allMessages: allMessages,
+      membership: membership,
+    });
+  }
+  res.render("index", {
+    user: req.user,
+    allMessages: allMessages,
+    membership: false,
+  });
 }
 
 module.exports = {
