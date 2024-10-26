@@ -3,11 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/styles.css" />
     <title>Home</title>
   </head>
-  <body>
+  <body class="home">
     <% if (locals.user) { %>
     <h1>Welcome Back <%= user.first_name %></h1>
+    <section class="messagesBox">
+      <% allMessages.forEach((msg) => { %>
+      <div>
+        <h3><Title></Title>: <%= msg.title %></h3>
+        <p>Message: <%= msg.text %></p>
+      </div>
+      <% }) %>
+    </section>
     <a href="/message">Create new message</a>
     <a href="/log-out">Log Out</a>
     <% } else { %>
