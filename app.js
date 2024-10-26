@@ -11,6 +11,7 @@ const {
   postLogIn,
   getLogOut,
   getMembers,
+  postMessage,
 } = require("./controllers/control");
 const app = express();
 const assetsPath = path.join(__dirname, "public");
@@ -34,6 +35,7 @@ app.get("/join-club", (req, res) => res.render("join-club"));
 app.get("/log-in", (req, res) => res.render("log-in"));
 app.get("/log-out", getLogOut);
 app.get("/members", getMembers);
+app.get("/message", (req, res) => res.render("message"));
 
 app.post("/join-club", postJoinClub);
 app.post("/sign-up", signUpValidation, postSignUp);
@@ -44,6 +46,7 @@ app.post(
     failureRedirect: "/log-in",
   })
 );
+app.post("/message", postMessage);
 
 const PORT = 3000;
 app.listen(PORT, () => console.log(`Port ${PORT} ongoing!`));
