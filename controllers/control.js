@@ -132,6 +132,15 @@ function getLogOut(req, res, next) {
   });
 }
 
+function getMembers(req, res) {
+  if (!req.isAuthenticated()) return res.redirect("/log-in");
+  res.render("members", {
+    user: req.user,
+    membership: req.user.membership_status,
+    message: "",
+  });
+}
+
 module.exports = {
   postSignUp,
   signUpValidation,
@@ -140,4 +149,5 @@ module.exports = {
   postJoinClub,
   postLogIn,
   getLogOut,
+  getMembers,
 };
