@@ -7,12 +7,15 @@
   </head>
   <body>
     <% if (membership) { %>
-    <p><%= message %></p>
+    <p><%= message || "" %></p>
     <h1>You're part of the big boys club</h1>
     <button><a href="/">Home</a></button>
     <% } else if (user) { %>
     <h1>Welcome! You're a member now</h1>
     <button><a href="/join-club">Join club</a></button>
+    <% } else { %>
+    <h1>Log in to view this page</h1>
+    <button><a href="/log-in">Log In</a></button>
     <% } %>
   </body>
 </html>
