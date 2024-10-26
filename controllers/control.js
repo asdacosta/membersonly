@@ -84,11 +84,6 @@ async function postJoinClub(req, res) {
       message: "Welcome to the club :)",
       membership: response,
     });
-  } else {
-    res.render("members", {
-      message: "You're already in the club!",
-      membership: response,
-    });
   }
 }
 
