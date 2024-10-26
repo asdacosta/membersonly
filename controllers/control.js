@@ -142,8 +142,13 @@ function getMembers(req, res) {
 }
 
 async function postMessage(req, res) {
-  await db.addMessage(req.user.username, req.body.title, req.body.message);
+  await db.addMessage(req.body.email, req.body.title, req.body.message);
   res.redirect("/");
+}
+
+async function getHome(req, res) {
+  const allMessages = await db.retrieveMessages();
+  res.render("index", { user: req.user, allMessages: allMessages });
 }
 
 module.exports = {
@@ -156,4 +161,5 @@ module.exports = {
   getLogOut,
   getMembers,
   postMessage,
+  getHome,
 };
