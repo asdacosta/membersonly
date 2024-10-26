@@ -51,7 +51,7 @@ async function checkMembership(username) {
     [username]
   );
   const user = rows[0];
-  return user;
+  return user.membership_status === "active";
 }
 
 module.exports = {
