@@ -69,7 +69,9 @@ async function addMessage(name, title, text) {
 }
 
 async function retrieveMessages() {
-  const { rows } = await pool.query("SELECT title, text, time FROM messages");
+  const { rows } = await pool.query(
+    "SELECT user_id, title, text, time FROM messages"
+  );
   return rows;
 }
 
