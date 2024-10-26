@@ -9,7 +9,7 @@
   <body class="signUp">
     <h1>Sign Up</h1>
     <form action="/sign-up" method="POST">
-      <% if (errors) { %>
+      <% if (locals.errors) { %>
       <ul>
         <% errors.forEach(error => { %>
         <li><%= error.msg %></li>
