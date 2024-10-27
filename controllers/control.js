@@ -143,7 +143,14 @@ function getMembers(req, res) {
 }
 
 async function postMessage(req, res) {
-  await db.addMessage(req.body.email, req.body.title, req.body.message);
+  const date = new Date();
+  const formattedDate = date.toDateString();
+  await db.addMessage(
+    req.body.email,
+    req.body.title,
+    req.body.message,
+    formattedDate
+  );
   res.redirect("/");
 }
 
