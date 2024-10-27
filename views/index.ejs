@@ -14,7 +14,7 @@
       <div>
         <h3>Title: <%= msg.title %></h3>
         <p>Message: <%= msg.text %></p>
-        <% if (membership) { %>
+        <% if (membership || admin) { %>
         <p>User ID: <%= msg.user_id %></p>
         <p>Date: <%= msg.time.toDateString() %></p>
         <% } %> <% if (admin) { %>
