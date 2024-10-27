@@ -53,13 +53,15 @@ async function postSignUp(req, res, next) {
   }
 
   try {
+    const isAdmin = req.body.admin === "on";
     crypt.hash(req.body.password, 10, async (err, hashedPwd) => {
       if (err) return next(err);
       db.addUser(
         req.body.first_name,
         req.body.last_name,
         req.body.email,
-        hashedPwd
+        hashedPwd,
+        isAdmin
       );
 
       const user = await db.findUser(req.body.email);
