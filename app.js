@@ -13,6 +13,7 @@ const {
   getMembers,
   postMessage,
   getHome,
+  postDelete,
 } = require("./controllers/control");
 const app = express();
 const assetsPath = path.join(__dirname, "public");
@@ -53,6 +54,7 @@ app.post(
   })
 );
 app.post("/message", postMessage);
+app.post("/:id/delete", postDelete);
 
 const PORT = 3000;
 app.listen(PORT, () => console.log(`Port ${PORT} ongoing!`));
