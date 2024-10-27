@@ -150,18 +150,27 @@ async function postMessage(req, res) {
 async function getHome(req, res) {
   const allMessages = await db.retrieveMessages();
   if (req.user) {
+    const user = await db.findAllUserData(req.user.username);
     const membership = await db.checkMembership(req.user.username);
     return res.render("index", {
       user: req.user,
       allMessages: allMessages,
       membership: membership,
+      admin: user.admin,
     });
   }
   res.render("index", {
     user: req.user,
     allMessages: allMessages,
     membership: false,
+    admin: false,
   });
+}
+
+async function postDelete(req, res) {
+  const user = await db.findUserWithId(req.params.id);
+  await db.deleteMessage(user.id);
+  res.redirect("/");
 }
 
 module.exports = {
@@ -175,4 +184,5 @@ module.exports = {
   getMembers,
   postMessage,
   getHome,
+  postDelete,
 };
