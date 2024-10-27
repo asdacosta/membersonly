@@ -18,19 +18,37 @@
       <% } %>
       <div>
         <label for="first_name">First Name</label>
-        <input type="text" name="first_name" id="first_name" maxlength="50" />
+        <input
+          type="text"
+          name="first_name"
+          id="first_name"
+          maxlength="50"
+          required
+        />
       </div>
       <div>
         <label for="last_name">Last Name</label>
-        <input type="text" name="last_name" id="last_name" maxlength="50" />
+        <input
+          type="text"
+          name="last_name"
+          id="last_name"
+          maxlength="50"
+          required
+        />
       </div>
       <div>
         <label for="email">Email</label>
-        <input type="email" name="email" id="email" maxlength="50" />
+        <input type="email" name="email" id="email" maxlength="50" required />
       </div>
       <div>
         <label for="password">Password</label>
-        <input type="password" name="password" id="password" maxlength="50" />
+        <input
+          type="password"
+          name="password"
+          id="password"
+          maxlength="50"
+          required
+        />
       </div>
       <div>
         <label for="confirm_password">Confirm Password</label>
@@ -39,7 +57,17 @@
           name="confirm_password"
           id="confirm_password"
           maxlength="50"
+          required
         />
+      </div>
+      <div style="flex-direction: row; justify-content: flex-start">
+        <input
+          type="checkbox"
+          id="admin"
+          name="admin"
+          style="min-width: auto"
+        />
+        <label for="admin">Admin</label>
       </div>
       <button>Sign Up</button>
     </form>
