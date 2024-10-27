@@ -17,6 +17,10 @@
         <% if (membership) { %>
         <p>User ID: <%= msg.user_id %></p>
         <p>Date: <%= msg.time.toDateString() %></p>
+        <% } %> <% if (admin) { %>
+        <form action="/<%= msg.user_id %>/delete" method="POST">
+          <button>Delete</button>
+        </form>
         <% } %>
       </div>
       <% }) %>
