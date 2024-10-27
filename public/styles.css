@@ -1,3 +1,7 @@
+body {
+  background-color: rgba(95, 158, 160, 0.2);
+}
+
 .signUp,
 .home {
   display: flex;
@@ -27,6 +31,13 @@
   align-self: center;
   cursor: pointer;
   margin-top: 1rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.home {
+  gap: 2rem;
 }
 
 .messagesBox {
@@ -39,4 +50,25 @@
   border: 0.1rem solid black;
   padding: 0.5rem 1rem;
   border-radius: 1rem;
+  background-color: cadetblue;
+}
+
+.homeLinks {
+  display: flex;
+  gap: 1rem;
+}
+
+a {
+  text-decoration: none;
+  border: 0.1rem solid black;
+  padding: 0.5rem 1rem;
+  color: black;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease-in-out;
+}
+
+a:hover,
+.signUp form button:hover {
+  background-color: cadetblue;
+  color: white;
 }
