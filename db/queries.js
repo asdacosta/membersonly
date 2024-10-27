@@ -54,7 +54,7 @@ async function checkMembership(username) {
   return user.membership_status === "active";
 }
 
-async function addMessage(name, title, text) {
+async function addMessage(name, title, text, date) {
   const { rows } = await pool.query(
     "SELECT id FROM users WHERE username = $1",
     [name]
@@ -63,8 +63,8 @@ async function addMessage(name, title, text) {
   if (!id) throw new Error("User ID not found");
 
   await pool.query(
-    "INSERT INTO messages (user_id, title, text) VALUES ($1, $2, $3)",
-    [id, title, text]
+    "INSERT INTO messages (user_id, title, text, time) VALUES ($1, $2, $3, $4)",
+    [id, title, text, date]
   );
 }
 
