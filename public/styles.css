@@ -1,5 +1,27 @@
 body {
-  background-color: rgba(95, 158, 160, 0.2);
+  background: url(/bg.jpg);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  position: relative;
+}
+
+h1,
+label {
+  background-color: cadetblue;
+  padding: 0 0.5rem;
+  border-radius: 0.5rem;
+}
+
+label {
+  align-self: flex-start;
+}
+
+.message {
+  width: 20rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .signUp,
@@ -63,6 +85,7 @@ a {
   border: 0.1rem solid black;
   padding: 0.5rem 1rem;
   color: black;
+  background-color: white;
   border-radius: 0.5rem;
   transition: all 0.2s ease-in-out;
 }
